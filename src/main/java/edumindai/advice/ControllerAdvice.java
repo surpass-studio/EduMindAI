@@ -51,12 +51,12 @@ public class ControllerAdvice {
 
         return Response.error(505, e.getMessage());
     }
-    @ExceptionHandler(value = Exception.class)
-    public Response requestException(Exception e){
-
-        log.error(e.getMessage());
-
-        return error(e);
-    }
+//    @ExceptionHandler(value = Exception.class)
+//    public Response requestException(Exception e){
+//
+//        log.error(e.getMessage());
+//
+//        return error(e);
+//    }
 
 }

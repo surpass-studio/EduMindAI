@@ -1,11 +1,11 @@
 server:
-  port: 8000
+  port: 8010
 spring:
   datasource:
     type: com.zaxxer.hikari.HikariDataSource
 #    testWhileIdle : true
 #    testOnBorrow : true
-    url: jdbc:postgresql://114.132.67.226:5432/edumindai
+    url: jdbc:postgresql://101.126.81.112:5432/edumindai
     username: root
     password: abC123456@
 
@@ -21,16 +21,16 @@ spring:
     validation-timeout: 1000
   data:
     redis:
-      host: 114.132.67.226
+      host: 101.126.81.112
       database: 5
       password: abC123456@
       port: 6379
 
     mongodb:
-      host: 114.132.67.226
+      host: 101.126.81.112
       port: 27017
-      database: eduMindAI
-      username: xiaolirw
+      database: admin
+      username: admin
       password: abC123456@
 
   mail:
@@ -51,7 +51,9 @@ mybatis:
   ##不设置包,找不到那个user类,传入参数的选择,就是insert标签的parameterType
   type-aliases-package: edumindai.model.entity
 
-  #
+#logging:
+#  level:
+#    edumindai.mapper: debug
 ##讯飞api配置
 #iflytek:
 #  hostUrl: https://spark-api.xf-yun.com/v3.1/chat

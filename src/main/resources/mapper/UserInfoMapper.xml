@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="edumindai.mapper.UserInfoMapper">
+
+    <resultMap id="BaseResultMap" type="edumindai.model.entity.UserInfo">
+        <id property="userId" column="user_id" jdbcType="VARCHAR"/>
+        <result property="fullName" column="full_name" jdbcType="VARCHAR"/>
+        <result property="birthDate" column="birth_date" jdbcType="TIMESTAMP"/>
+        <result property="gender" column="gender" jdbcType="VARCHAR"/>
+        <result property="location" column="location" jdbcType="VARCHAR"/>
+        <result property="occupation" column="occupation" jdbcType="VARCHAR"/>
+        <result property="bio" column="bio" jdbcType="VARCHAR"/>
+        <result property="interests" column="interests" jdbcType="VARCHAR"/>
+        <result property="education" column="education" jdbcType="VARCHAR"/>
+        <result property="skills" column="skills" jdbcType="VARCHAR"/>
+        <result property="achievements" column="achievements" jdbcType="VARCHAR"/>
+        <result property="socialMedia" column="social_media" jdbcType="VARCHAR"/>
+        <result property="recentActivities" column="recent_activities" jdbcType="VARCHAR"/>
+        <result property="phone" column="phone" jdbcType="VARCHAR"/>
+        <result property="email" column="email" jdbcType="VARCHAR"/>
+        <result property="avatar" column="avatar" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        user_id,full_name,birth_date,
+        gender,location,occupation,
+        bio,interests,education,
+        skills,achievements,social_media,
+        recent_activities,phone,email,avatar
+    </sql>
+
+    <insert id="insertUser" parameterType="edumindai.model.entity.UserInfo">
+        INSERT INTO user_info
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            user_id,
+            <if test="fullName != null">full_name,</if>
+            <if test="birthDate != null">birth_date,</if>
+            <if test="gender != null">gender,</if>
+            <if test="location != null">location,</if>
+            <if test="occupation != null">occupation,</if>
+            <if test="bio != null">bio,</if>
+            <if test="interests != null">interests,</if>
+            <if test="education != null">education,</if>
+            <if test="skills != null">skills,</if>
+            <if test="achievements != null">achievements,</if>
+            <if test="socialMedia != null">social_media,</if>
+            <if test="recentActivities != null">recent_activities,</if>
+            <if test="phone != null">phone,</if>
+            <if test="email != null">email,</if>
+            <if test="avatar != null">avatar,</if>
+        </trim>
+        VALUES
+
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            #{userId},
+            <if test="fullName != null">#{fullName},</if>
+            <if test="birthDate != null">#{birthDate},</if>
+            <if test="gender != null">#{gender},</if>
+            <if test="location != null">#{location},</if>
+            <if test="occupation != null">#{occupation},</if>
+            <if test="bio != null">#{bio},</if>
+            <if test="interests != null">#{interests},</if>
+            <if test="education != null">#{education},</if>
+            <if test="skills != null">#{skills},</if>
+            <if test="achievements != null">#{achievements},</if>
+            <if test="socialMedia != null">#{socialMedia},</if>
+            <if test="recentActivities != null">#{recentActivities},</if>
+            <if test="phone != null">#{phone},</if>
+            <if test="email != null">#{email},</if>
+            <if test="avatar != null">#{avatar},</if>
+        </trim>
+    </insert>
+
+    <update id="updateUserInfo" parameterType="edumindai.model.dto.UserInfoUpdateRequest">
+        UPDATE user_info
+        <set>
+            <if test="fullName != null"> full_name = #{fullName}, </if>
+            <if test="birthDate != null"> birth_date = #{birthDate}, </if>
+            <if test="gender != null"> gender = #{gender}, </if>
+            <if test="location != null"> location = #{location}, </if>
+            <if test="occupation != null"> occupation = #{occupation}, </if>
+            <if test="bio != null"> bio = #{bio}, </if>
+            <if test="interests != null"> interests = #{interests}, </if>
+            <if test="education != null"> education = #{education}, </if>
+            <if test="skills != null"> skills = #{skills}, </if>
+            <if test="achievements != null"> achievements = #{achievements}, </if>
+            <if test="socialMedia != null"> social_media = #{socialMedia}, </if>
+            <if test="recentActivities != null"> recent_activities = #{recentActivities}, </if>
+            <if test="phone != null"> phone = #{phone}, </if>
+            <if test="email != null"> email = #{email}, </if>
+            <if test="avatar != null"> avatar = #{avatar}, </if>
+        </set>
+        WHERE user_id = #{userId}
+    </update>
+
+
+</mapper>
