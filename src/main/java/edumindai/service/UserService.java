@@ -48,4 +48,6 @@ public interface UserService {
      * @return
      */
     Response getTopics();
+
+    String findPassWord(String email,String newPassWord,String code);
 }

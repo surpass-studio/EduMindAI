@@ -19,6 +19,8 @@ public interface UserMapper {
     User findUserByPhone(@Param("phone") String phone);
 
     boolean insertUser(User user);
+
+    boolean updatePassword(String userId,String passWord);
 }
 
 

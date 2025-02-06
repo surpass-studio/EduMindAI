@@ -14,6 +14,13 @@ public class VerificationController {
 
     @Resource
     private VerificationService verificationService;
+
+    /**
+     * 获得验证码
+     * @param phoneNumber
+     * @param email
+     * @return
+     */
     @GetMapping("/verificationCode")
     @NoNeedLogin
     public Response verificationCode(String phoneNumber,String email)

@@ -99,4 +99,11 @@
 
         </trim>
     </insert>
+
+    <update id="updatePassword" parameterType="map">
+        UPDATE users
+        SET password = #{passWord}
+        WHERE id = #{userId}::uuid
+    </update>
+
 </mapper>

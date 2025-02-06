@@ -2,14 +2,12 @@ package edumindai.controller;
 
 import edumindai.common.Response;
 import edumindai.mapper.UserInfoMapper;
-import edumindai.model.dto.LoginRequest;
-import edumindai.model.dto.RegisterRequest;
-import edumindai.model.dto.UserInfoRequest;
-import edumindai.model.dto.UserInfoUpdateRequest;
+import edumindai.model.dto.*;
 import edumindai.model.entity.User;
 import edumindai.model.entity.UserInfo;
 import edumindai.model.vo.LoginVO;
 import edumindai.model.vo.RegisterVO;
+import edumindai.model.vo.UserInfoVO;
 import edumindai.service.UserService;
 import edumindai.utils.ContextHolder;
 import jakarta.annotation.Resource;
@@ -25,14 +23,36 @@ public class UserController {
     @Resource
     UserInfoMapper userInfoMapper;
 
+    /**
+     * 登陆
+     * @param loginRequest
+     * @return
+     */
     @PostMapping("/login")
     public Response<LoginVO> login(@RequestBody LoginRequest loginRequest) {
         return userService.login(loginRequest);
     }
 
+    /**
+     * 注册
+     * @param registerRequest
+     * @return
+     */
     @PostMapping("/register")
     public Response<RegisterVO> register(@RequestBody RegisterRequest registerRequest) {
         return userService.register(registerRequest);
+    }
+
+    /**
+     * 查找密码
+     * @param findPasswordRequest
+     * @return
+     */
+    @PostMapping("/findPassword")
+    public Response<String> findPassword(@RequestBody FindPasswordRequest findPasswordRequest) {
+        String passWord = userService.findPassWord(findPasswordRequest.getEmail(), findPasswordRequest.getNewPassword(), findPasswordRequest.getCode());
+
+        return new Response<>(200,"重置密码成功",passWord);
     }
 
     /**
@@ -60,7 +80,9 @@ public class UserController {
 
         userInfoMapper.insertUser(userInfo);
 
-        return new Response<>(200, "成功返回", userInfo); // 返回转换后的实体
+        UserInfoVO userInfoVO = new UserInfoVO().setUserInfoVO(userInfo);
+
+        return new Response<>(200, "成功返回", userInfoVO); // 返回转换后的实体
     }
 
     /**
@@ -82,8 +104,11 @@ public class UserController {
 
 
 
+        UserInfoVO userInfoVO = new UserInfoVO().setUserInfoVO(userInfo);
 
-        return new Response<>(200, "更新成功", userInfo);
+
+
+        return new Response<>(200, "更新成功", userInfoVO);
     }
 
     /**
@@ -97,8 +122,13 @@ public class UserController {
         UserInfo userInfoById = userInfoMapper.getUserInfoById(user.getId());
 
 
-        return new Response<>(200, "更新成功",userInfoById );
+        UserInfoVO userInfoVO = new UserInfoVO().setUserInfoVO(userInfoById);
+
+
+        return new Response<>(200, "更新成功",userInfoVO );
     }
+
+
 
 
 

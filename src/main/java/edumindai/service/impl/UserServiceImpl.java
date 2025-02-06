@@ -15,10 +15,7 @@ import edumindai.model.entity.UserTopicAssociation;
 import edumindai.model.vo.LoginVO;
 import edumindai.model.vo.RegisterVO;
 import edumindai.model.vo.TopicsVO;
-import edumindai.service.LoginContext;
-import edumindai.service.RegisterContext;
-import edumindai.service.UserService;
-import edumindai.service.UserTopicAssociationService;
+import edumindai.service.*;
 import edumindai.utils.ContextHolder;
 import edumindai.utils.JwtUtil;
 import edumindai.utils.RegexCheckUtil;
@@ -58,6 +55,9 @@ public class UserServiceImpl implements UserService {
     @Autowired
     UserTopicAssociationService userTopicAssociationService;
 
+    @Autowired
+    VerificationService verificationService;
+
     @Override
     public Response<LoginVO> login(LoginRequest loginRequest) {
 
@@ -88,7 +88,7 @@ public class UserServiceImpl implements UserService {
         String token = JwtUtil.generateJwtToken(user);
 
         //登陆成功
-       return new Response<>(1, "登陆成功",new LoginVO(token));
+       return new Response<>(200, "登陆成功",new LoginVO(token));
     }
 
     @Override
@@ -107,7 +107,7 @@ public class UserServiceImpl implements UserService {
 
         String token = JwtUtil.generateJwtToken(user);
 
-        return new Response<>(1,"注册成功",new RegisterVO(token));
+        return new Response<>(200,"注册成功",new RegisterVO(token));
     }
 
     /**
@@ -238,7 +238,31 @@ public class UserServiceImpl implements UserService {
         }
 
 
-        return new Response(1,"查询成功",topicsVO);
+        return new Response(200,"查询成功",topicsVO);
+    }
+
+    public String findPassWord(String email,String newPassWord,String code){
+        //验证码校验,如果错误会抛出错误
+        try {
+            verificationService.verificationCodeCheck(email, code);
+
+            User user = getUserByEmail(email);
+            //用户密码加密
+            BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
+            String encode = bCryptPasswordEncoder.encode(newPassWord);
+
+            user.setPassword(encode);
+
+            userMapper.updatePassword(user.getId(),encode);
+
+
+
+
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
+        return "更新成功";
     }
 }
 
