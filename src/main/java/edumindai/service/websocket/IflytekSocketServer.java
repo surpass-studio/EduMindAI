@@ -281,7 +281,7 @@ public class IflytekSocketServer extends TextWebSocketHandler {
             mongoTemplate.save(answerMessages);
 
             //保存到数据库(考虑一致性,所以要在关闭的时候选择保存)
-            userTopicAssociationService.insertTopic(this.userId, this.topicId);
+           // userTopicAssociationService.insertTopic(this.userId, this.topicId,answers.getFirst().getContent());
 
         }
     }

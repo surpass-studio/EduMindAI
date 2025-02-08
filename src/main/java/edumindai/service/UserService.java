@@ -50,4 +50,6 @@ public interface UserService {
     Response getTopics();
 
     String findPassWord(String email,String newPassWord,String code);
+
+    boolean deleteTopic(String userId,String topicId);
 }

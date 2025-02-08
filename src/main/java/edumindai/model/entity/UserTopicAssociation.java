@@ -42,6 +42,11 @@ public class UserTopicAssociation implements Serializable {
      */
     private String title;
 
+    /**
+     * prompt
+     */
+    private String types;
+
     private static final long serialVersionUID = 1L;
 
     @Override

@@ -12,4 +12,6 @@ public interface PromptsService {
 
     String setQuestion(Integer promptId,String question);
 
+    String getPromptType(Integer promptId);
+
 }

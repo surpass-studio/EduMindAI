@@ -1,6 +1,7 @@
 package edumindai.service.websocket;
 
 
+import cn.hutool.core.util.StrUtil;
 import com.alibaba.fastjson.JSON;
 import edumindai.enums.IflytekRoleEnum;
 import edumindai.exception.ServiceException;
@@ -58,15 +59,16 @@ public class AIWebSocketServer {
         AIWebSocketServer.userTopicAssociationService=userTopicAssociationService;
     };
 
-//    //负责Prompt参数
-//
-//    private static PromptsService promptsService;
-//
-//    @Autowired
-//    public  void setPromptServer(PromptsService promptsService){
-//        AIWebSocketServer.promptsService=promptsService;
-//    }
+    //负责Prompt参数
 
+    private static PromptsService promptsService;
+
+    @Autowired
+    public  void setPromptServer(PromptsService promptsService){
+        AIWebSocketServer.promptsService=promptsService;
+    }
+
+    private String title=null;
     /**
      * 用户ID
      */
@@ -83,6 +85,8 @@ public class AIWebSocketServer {
 
 
     private Session session;
+
+    private String types;
 
     private boolean insertTopicIntoSql = false;
     /**
@@ -192,8 +196,9 @@ public class AIWebSocketServer {
             //防止2.防止后续连接多次插入psql数据库
             if (insertTopicIntoSql){
 
+
                 //保存到数据库(考虑一致性,所以要在关闭的时候选择保存)(新建连接保存,但是之后连接过了重新连接是不需要保存的)
-                userTopicAssociationService.insertTopic(this.userId, this.topicId);
+                userTopicAssociationService.insertTopic(this.userId, this.topicId,this.title,this.types);
             }
 
 
@@ -209,37 +214,43 @@ public class AIWebSocketServer {
     @OnMessage
     public void onMessage(Session session,String message) throws InterruptedException {
 
-//
-//        //将Json转成对象
-//        MessageBO messageBO = JSON.parseObject(message, MessageBO.class);
-//
-//        //第一次提问使用参数或者自定义prompt参数
-//        if (messageBO.getStatus()==0){
-//
-//            if (messageBO.getPrompt()==null){
-//                //使用参数id
-//                String question = promptsService.setQuestion(messageBO.getPromptId(), messageBO.getQuestion());
-//
-//                messageBO.setQuestion(question);
-//
-//
-//            }else {
-//                //自定义参数
-//
-//                String question=messageBO.getPrompt()+"我的题目是:"+messageBO.getQuestion();
-//
-//                messageBO.setQuestion(question);
-//
-//            }
-//        }
+
+        //将Json转成对象
+        MessageBO messageBO = JSON.parseObject(message, MessageBO.class);
+
 
         //用户发送的提问信息保存在list中
         Answer answer = new Answer();
+        //第一次提问使用参数或者自定义prompt参数
+
+
+        if (messageBO.getStatus()==0){
+            this.title=messageBO.getQuestion();
+            if (messageBO.getPromptId()!=null){
+                //使用参数id
+                String question = promptsService.setQuestion(messageBO.getPromptId(), messageBO.getQuestion());
+
+                messageBO.setQuestion(question);
+
+                this.types=promptsService.getPromptType(messageBO.getPromptId());
+
+            }else {
+                //自定义参数
+
+                String question=messageBO.getPrompt()+"我的问题是是:"+messageBO.getQuestion();
+
+                messageBO.setQuestion(question);
+
+                this.types="自定义Prompt";
+
+            }
+        }
+
+        System.out.println(messageBO.getQuestion().toString());
+
         answer.setRole(IflytekRoleEnum.User);
-        answer.setContent(message);
-        answer.setTokenSumCount(message.length());
-
-
+        answer.setContent(messageBO.getQuestion());
+        answer.setTokenSumCount(messageBO.getQuestion().length());
         this.answers.add(answer);
 
 

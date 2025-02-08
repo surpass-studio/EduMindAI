@@ -5,6 +5,8 @@ import edumindai.model.entity.Prompts;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 
+import java.util.List;
+
 /**
 * @author ljz20
 * @description 针对表【prompts】的数据库操作Mapper
@@ -14,8 +16,10 @@ import org.apache.ibatis.annotations.Select;
 @Mapper
 public interface PromptsMapper{
 
-    @Select("select id,prompt from prompts where id=#{id}")
+    @Select("select id,prompt,prompt_name from prompts where id=#{id}")
     Prompts getPromptsById(Integer id);
+    @Select("select id,prompt,prompt_name from prompts ")
+    List<Prompts> getPrompts();
 
 }
 

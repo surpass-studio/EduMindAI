@@ -22,9 +22,14 @@ public class PromptsServiceImpl implements PromptsService{
         //获取prompt参数
         String prompt = promptsMapper.getPromptsById(promptId).getPrompt();
 
-        prompt=prompt+"我现在的主题是:"+question;
+        prompt=prompt+"我现在的题目是:"+question;
         //根据枚举选择不同的处理方式(现在一条先简单拼接)
         return prompt;
+    }
+
+    @Override
+    public String getPromptType(Integer promptId) {
+        return promptsMapper.getPromptsById(promptId).getPromptName();
     }
 }
 

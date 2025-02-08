@@ -226,17 +226,7 @@ public class UserServiceImpl implements UserService {
 
         TopicsVO topicsVO = new TopicsVO();
         topicsVO.setUserId(userId);
-
-        ArrayList<String> topics = new ArrayList<>();
-
-        topicsVO.setList(topics);
-
-        for (UserTopicAssociation userTopicAssociation : myUserTopicAssociation){
-
-            topics.add(userTopicAssociation.getTopicId());
-
-        }
-
+        topicsVO.setList(myUserTopicAssociation);
 
         return new Response(200,"查询成功",topicsVO);
     }
@@ -263,6 +253,21 @@ public class UserServiceImpl implements UserService {
         }
 
         return "更新成功";
+    }
+
+    @Override
+    public boolean deleteTopic(String userId, String topicId) {
+        try {
+            userTopicAssociationService.deleteOneByTopicId(topicId);
+
+        }catch (Exception e){
+
+            System.out.println("topicId异常");
+            return false;
+        }
+        return true;
+
+
     }
 }
 

@@ -1,5 +1,6 @@
 package edumindai.model.vo;
 
+import edumindai.model.entity.UserTopicAssociation;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -17,5 +18,5 @@ public class TopicsVO {
     /**
      * 我的topic 列表
      */
-    private List<String> list;
+    private List<UserTopicAssociation> list;
 }

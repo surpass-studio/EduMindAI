@@ -13,7 +13,7 @@ import java.util.List;
 public interface UserTopicAssociationService  {
 
     //用户创建Topic
-    boolean insertTopic(String userId, String topicId);
+    boolean insertTopic(String userId, String topicId,String title,String types);
 
     //根据用户id查询Topic集合
 

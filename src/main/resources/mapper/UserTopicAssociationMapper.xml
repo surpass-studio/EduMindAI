@@ -11,9 +11,10 @@
         <result property="createAt" column="create_at" jdbcType="TIMESTAMP"/>
         <result property="updateAt" column="update_at" jdbcType="TIMESTAMP"/>
         <result property="title" column="title" jdbcType="OTHER"/>
+        <result property="types" column="types" jdbcType="OTHER"/>
     </resultMap>
     <select id="findMyTopicByUserId" resultMap="BaseResultMap">
-        select id,user_id,topic_id,create_at,update_at,title
+        select id,user_id,topic_id,create_at,update_at,title,types
         from user_topic_association
         <where>
             user_id = #{userId}::uuid
@@ -33,7 +34,10 @@
                 topic_id,
             </if>
             <if test="title != null">
-                title
+                title,
+            </if>
+            <if test="types != null">
+                types
             </if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -49,6 +53,9 @@
             <if test="title != null">
                 #{title},
             </if>
+            <if test="types != null">
+                #{types},
+            </if>
         </trim>
     </insert>
 
@@ -57,7 +64,7 @@
     </delete>
 
     <select id="findMyTopicByUserIdAndTopicId" resultMap="BaseResultMap">
-        select id,user_id,topic_id,create_at,update_at,title
+        select id,user_id,topic_id,create_at,update_at,title,types
         from user_topic_association
         <where>
             user_id = #{userId}::uuid
@@ -68,7 +75,7 @@
     <sql id="Base_Column_List">
         id
         ,user_id,topic_id,
-        create_at,update_at,title
+        create_at,update_at,title,types
     </sql>
 
 

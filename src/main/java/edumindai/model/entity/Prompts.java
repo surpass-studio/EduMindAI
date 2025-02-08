@@ -21,6 +21,8 @@ public class Prompts implements Serializable {
      */
     private String prompt;
 
+    private String promptName;
+
     private static final long serialVersionUID = 1L;
 
     @Override

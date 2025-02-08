@@ -27,7 +27,7 @@ public class UserTopicAssociationServiceImpl implements UserTopicAssociationServ
      * @return true / false
      */
     @Override
-    public boolean insertTopic(String userId, String topicId) {
+    public boolean insertTopic(String userId, String topicId,String title,String types) {
 
         UserTopicAssociation userTopicAssociation = new UserTopicAssociation();
 
@@ -36,9 +36,11 @@ public class UserTopicAssociationServiceImpl implements UserTopicAssociationServ
 
         userTopicAssociation.setId(topicId);
 
-        userTopicAssociation.setTitle("New Connect");
+        userTopicAssociation.setTitle(title);
 
         userTopicAssociation.setUserId(userId);
+
+        userTopicAssociation.setTypes(types);
 
         return userTopicAssociationMapper.insertTopicByUserId(userTopicAssociation);
     }

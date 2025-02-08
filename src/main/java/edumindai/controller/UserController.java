@@ -1,8 +1,10 @@
 package edumindai.controller;
 
 import edumindai.common.Response;
+import edumindai.mapper.PromptsMapper;
 import edumindai.mapper.UserInfoMapper;
 import edumindai.model.dto.*;
+import edumindai.model.entity.Prompts;
 import edumindai.model.entity.User;
 import edumindai.model.entity.UserInfo;
 import edumindai.model.vo.LoginVO;
@@ -14,6 +16,8 @@ import jakarta.annotation.Resource;
 import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/user")
 public class UserController {
@@ -22,6 +26,9 @@ public class UserController {
 
     @Resource
     UserInfoMapper userInfoMapper;
+
+    @Resource
+    PromptsMapper promptsMapper;
 
     /**
      * 登陆
@@ -128,6 +135,33 @@ public class UserController {
         return new Response<>(200, "更新成功",userInfoVO );
     }
 
+    @GetMapping("/topics/del")
+    public Response<Void> deleteTopic(String topicId){
+
+
+        boolean b = userService.deleteTopic(ContextHolder.getUser().getId(), topicId);
+
+        if (!b){
+            return Response.error(201,"topicId错误！");
+
+        }
+
+        return Response.success(200,"删除成功");
+
+
+
+    }
+
+    /**
+     * 查询Prompt
+     * @return
+     */
+    @GetMapping("/prompt")
+    public Response<List<Prompts>> getPrompt(){
+        List<Prompts> prompts = promptsMapper.getPrompts();
+
+        return new Response(200,"查询成功",prompts);
+    }
 
 
 
